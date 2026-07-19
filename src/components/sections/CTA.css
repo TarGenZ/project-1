@@ -1,0 +1,112 @@
+.cta-section {
+  padding: 100px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-glow {
+  position: absolute;
+  width: 800px; height: 400px;
+  background: radial-gradient(ellipse, rgba(124,58,237,0.2) 0%, transparent 70%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.cta-box {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+  background: var(--card-bg);
+  border: 1px solid rgba(124,58,237,0.25);
+  border-radius: 28px;
+  padding: 64px 48px;
+  position: relative;
+}
+
+.cta-eyebrow {
+  display: inline-block;
+  background: rgba(245,158,11,0.15);
+  border: 1px solid rgba(245,158,11,0.3);
+  color: var(--amber);
+  padding: 4px 14px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.cta-title {
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 800;
+  color: var(--white);
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.cta-desc {
+  color: var(--muted);
+  font-size: 1rem;
+  max-width: 520px;
+  margin: 0 auto 36px;
+  line-height: 1.7;
+}
+
+.cta-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.btn-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--violet);
+  color: white;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background 0.2s, transform 0.2s;
+  box-shadow: 0 0 40px rgba(124,58,237,0.35);
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-cta-primary:hover {
+  background: var(--violet-light);
+  transform: translateY(-2px);
+}
+
+.btn-cta-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #25D366;
+  color: white;
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background 0.2s, transform 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-cta-whatsapp:hover {
+  background: #1ebe5d;
+  transform: translateY(-2px);
+}
+
+.cta-reassure {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+@media (max-width: 600px) {
+  .cta-box { padding: 40px 24px; }
+}
