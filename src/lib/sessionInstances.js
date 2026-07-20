@@ -1,4 +1,4 @@
-import { DAYS, SLOT_LABELS } from './plans';
+import { DAYS, SLOT_LABELS, slotToDateRange } from './plans';
 
 function startOfDay(d) {
   const x = new Date(d);
@@ -52,6 +52,7 @@ export function buildSessionInstances(purchases, groupSessions, plansByKey = {})
         label: p.plan_name,
         date: startOfDay(p.scheduled_date),
         slotLabel: SLOT_LABELS[p.scheduled_slot] || p.scheduled_slot,
+        range: slotToDateRange(p.scheduled_date, p.scheduled_slot),
         zoomJoinUrl: p.zoom_join_url,
       });
     } else if (p.weekly_day !== null && p.weekly_day !== undefined && p.weekly_slot) {
@@ -72,6 +73,7 @@ export function buildSessionInstances(purchases, groupSessions, plansByKey = {})
           label: `${p.plan_name} (every ${DAYS[p.weekly_day]})`,
           date: nextWeekdayOccurrence(p.weekly_day, today),
           slotLabel: SLOT_LABELS[p.weekly_slot] || p.weekly_slot,
+          range: slotToDateRange(nextWeekdayOccurrence(p.weekly_day, today).toISOString().slice(0, 10), p.weekly_slot),
           zoomJoinUrl: p.zoom_join_url,
           recurring: true,
         });
@@ -91,6 +93,7 @@ export function buildSessionInstances(purchases, groupSessions, plansByKey = {})
       label: plansByKey[gs.plan_key]?.name || 'Group Session',
       date: startOfDay(gs.session_date),
       slotLabel: SLOT_LABELS[gs.session_slot] || gs.session_slot,
+      range: slotToDateRange(gs.session_date, gs.session_slot),
       zoomJoinUrl: gs.zoom_link,
       isGroup: true,
     });

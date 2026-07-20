@@ -2,11 +2,21 @@
   command = "npm run build"
   publish = "dist"
 
+[functions]
+  directory = "netlify/functions"
+
 # react-router-dom handles routing client-side, so every path needs to
 # actually load index.html and let the router take over — otherwise a
 # direct link or refresh on e.g. /dashboard 404s before React ever mounts.
 # Vercel did this automatically via its Vite framework preset; Netlify
 # needs it declared explicitly.
+# API routes are excluded so they hit the actual function instead of
+# getting swallowed by the catch-all below (same pattern as project-0).
+[[redirects]]
+  from = "/api/*"
+  to = "/api/:splat"
+  status = 200
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

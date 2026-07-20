@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Calendar, Copy, Check } from 'lucide-react';
+import { Calendar, Copy, Check, CalendarPlus } from 'lucide-react';
+import { downloadICS } from '../../lib/calendarLinks';
 
 export default function SessionInstanceRow({ instance, showLink = false }) {
   const [copied, setCopied] = useState(false);
@@ -30,35 +31,56 @@ export default function SessionInstanceRow({ instance, showLink = false }) {
           </div>
         </div>
       </div>
-      {/* Meeting link only ever surfaces for today's sessions — upcoming and
-          past rows intentionally never show Join/Copy, even if a link
-          exists on the record, to keep it from being clicked early/late. */}
-      {showLink &&
-        (instance.zoomJoinUrl ? (
-          <div className="flex items-center gap-2">
-            <button
-              onClick={copyLink}
-              title="Copy meeting link"
-              className="flex h-8 w-8 items-center justify-center rounded-lg border border-line text-white/50 transition hover:border-violet/50 hover:text-white"
-            >
-              {copied ? <Check size={13} className="text-green-400" /> : <Copy size={13} />}
-            </button>
-            <a
-              href={instance.zoomJoinUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-lg border border-line px-3 py-1.5 text-xs text-white/70 transition hover:border-violet/50 hover:text-white"
-            >
-              Join Zoom
-            </a>
-          </div>
-        ) : (
-          instance.isGroup && (
-            <span className="rounded-lg border border-dashed border-line px-3 py-1.5 text-xs text-white/30">
-              Link coming soon
-            </span>
-          )
-        ))}
+      <div className="flex items-center gap-2">
+        {/* Meeting link only ever surfaces for today's sessions — upcoming and
+            past rows intentionally never show Join/Copy, even if a link
+            exists on the record, to keep it from being clicked early/late. */}
+        {showLink &&
+          (instance.zoomJoinUrl ? (
+            <>
+              <button
+                onClick={copyLink}
+                title="Copy meeting link"
+                className="flex h-8 w-8 items-center justify-center rounded-lg border border-line text-white/50 transition hover:border-violet/50 hover:text-white"
+              >
+                {copied ? <Check size={13} className="text-green-400" /> : <Copy size={13} />}
+              </button>
+              <a
+                href={instance.zoomJoinUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg border border-line px-3 py-1.5 text-xs text-white/70 transition hover:border-violet/50 hover:text-white"
+              >
+                Join Zoom
+              </a>
+            </>
+          ) : (
+            instance.isGroup && (
+              <span className="rounded-lg border border-dashed border-line px-3 py-1.5 text-xs text-white/30">
+                Link coming soon
+              </span>
+            )
+          ))}
+        {/* Add-to-calendar is useful any time — not just today — so it's
+            not gated behind `showLink` the way Join/Copy are. */}
+        {instance.range && (
+          <button
+            onClick={() =>
+              downloadICS({
+                title: instance.label,
+                description: instance.zoomJoinUrl ? `Zoom: ${instance.zoomJoinUrl}` : '',
+                location: instance.zoomJoinUrl || '',
+                start: instance.range.start,
+                end: instance.range.end,
+              })
+            }
+            title="Add to calendar"
+            className="flex h-8 w-8 items-center justify-center rounded-lg border border-line text-white/50 transition hover:border-violet/50 hover:text-white"
+          >
+            <CalendarPlus size={13} />
+          </button>
+        )}
+      </div>
     </div>
   );
 }

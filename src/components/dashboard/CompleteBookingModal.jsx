@@ -97,17 +97,22 @@ export default function CompleteBookingModal({ purchase, plan, onClose, onSaved 
     setSaving(true);
     setError(null);
     try {
-      const update = isPickDate
-        ? { scheduled_date: fmt(selectedDate), scheduled_slot: selectedSlot }
-        : { weekly_day: selectedDay, weekly_slot: selectedSlot };
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (!session) throw new Error('Your session expired — please sign in again.');
 
-      const { data, error: err } = await supabase
-        .from('purchases')
-        .update(update)
-        .eq('id', purchase.id)
-        .select()
-        .single();
-      if (err) throw err;
+      const body = isPickDate
+        ? { purchase_id: purchase.id, scheduled_date: fmt(selectedDate), scheduled_slot: selectedSlot }
+        : { purchase_id: purchase.id, weekly_day: selectedDay, weekly_slot: selectedSlot };
+
+      const res = await fetch('/api/create-zoom-meeting', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.access_token}` },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Could not confirm your slot. Please try again.');
       onSaved(data);
     } catch (err) {
       setError(err.message);
@@ -266,7 +271,7 @@ export default function CompleteBookingModal({ purchase, plan, onClose, onSaved 
             disabled={!canSave || saving}
             className="mt-6 w-full rounded-lg bg-violet py-2.5 text-sm font-semibold text-white transition hover:bg-violet-soft disabled:opacity-50"
           >
-            {saving ? 'Saving…' : 'Confirm slot'}
+            {saving ? 'Creating your Zoom link…' : 'Confirm slot'}
           </button>
         </motion.div>
       </div>

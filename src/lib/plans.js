@@ -29,6 +29,25 @@ export function getSlotsForScheduleType(scheduleType) {
 
 export const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 
+// Flat slot-key → {start,end} lookup, built from FIXED_SLOTS above so it
+// can never drift out of sync with the slot definitions.
+const SLOT_TIMES = Object.fromEntries(
+  Object.values(FIXED_SLOTS).flat().map((s) => [s.key, { start: s.start, end: s.end }])
+);
+
+// Combines a "YYYY-MM-DD" date string with a slot key into real Date
+// objects, anchored to IST (Asia/Kolkata, UTC+5:30) regardless of the
+// browser's own timezone. Used for Zoom scheduling and "add to calendar"
+// links. Returns null for legacy/unknown slot keys.
+export function slotToDateRange(dateStr, slotKey) {
+  const t = SLOT_TIMES[slotKey];
+  if (!t || !dateStr) return null;
+  return {
+    start: new Date(`${dateStr}T${t.start}:00+05:30`),
+    end: new Date(`${dateStr}T${t.end}:00+05:30`),
+  };
+}
+
 // Ghost deal pricing: starts Dec 1, drops 15% each month, hides after May
 export function getGhostDealPrice() {
   const now = new Date();
