@@ -2,22 +2,47 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  scroll-behavior: smooth;
+/* ── Theme CSS variables ─────────────────────────────────────────────────────
+   Space-separated RGB triplets so Tailwind's opacity modifiers work:
+   bg-base/90 → rgb(var(--color-base) / 0.9)
+── */
+:root {
+  /* dark (default) */
+  --color-base:     10 15 30;     /* #0A0F1E */
+  --color-panel:    16 22 43;     /* #10162B */
+  --color-line:     30 37 64;     /* #1E2540 */
+  --color-lavender: 196 181 253;  /* #C4B5FD — light purple, readable on dark */
+  --color-grid-dot: 196, 181, 253, 0.07;
 }
+
+[data-theme="light"] {
+  --color-base:     248 249 255;  /* #F8F9FF — soft lavender-white */
+  --color-panel:    255 255 255;  /* #FFFFFF */
+  --color-line:     224 227 242;  /* #E0E3F2 — soft border */
+  --color-lavender: 109 40 217;   /* #6D28D9 — darker purple, readable on light */
+  --color-grid-dot: 124, 58, 237, 0.04;
+}
+
+/* ── Body ────────────────────────────────────────────────────────────────────
+   Use the CSS variable so the background switches with the theme.
+── */
+html { scroll-behavior: smooth; }
 
 body {
-  background-color: #0a0f1e;
-  background-image: radial-gradient(circle at 1px 1px, rgba(196, 181, 253, 0.07) 1px, transparent 0);
+  background-color: rgb(var(--color-base));
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(var(--color-grid-dot)) 1px,
+    transparent 0
+  );
   background-size: 28px 28px;
+  transition: background-color 0.2s ease;
 }
 
-::selection {
-  background: #7c3aed;
-  color: #fff;
-}
+/* ── Selection ───────────────────────────────────────────────────────────────*/
+::selection { background: #7c3aed; color: #fff; }
 
-/* visible keyboard focus everywhere */
+/* ── Focus ───────────────────────────────────────────────────────────────────*/
 a:focus-visible,
 button:focus-visible,
 [tabindex]:focus-visible {
@@ -26,21 +51,40 @@ button:focus-visible,
   border-radius: 4px;
 }
 
-::-webkit-scrollbar {
-  width: 10px;
-}
-::-webkit-scrollbar-track {
-  background: #0a0f1e;
-}
-::-webkit-scrollbar-thumb {
-  background: #1e2540;
-  border-radius: 6px;
-}
+/* ── Scrollbar ───────────────────────────────────────────────────────────────*/
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: rgb(var(--color-base)); }
+::-webkit-scrollbar-thumb { background: rgb(var(--color-line)); border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: #7c3aed; }
 
+/* ── text-white overrides for light mode ────────────────────────────────────
+   Tailwind hard-codes `color: #fff` for every text-white/XX class.
+   We re-map them to the dark base colour when in light mode so all
+   component markup stays completely untouched.
+── */
+[data-theme="light"] .text-white          { color: #0A0F1E; }
+[data-theme="light"] .text-white\/10      { color: rgba(10,15,30,0.10); }
+[data-theme="light"] .text-white\/15      { color: rgba(10,15,30,0.15); }
+[data-theme="light"] .text-white\/20      { color: rgba(10,15,30,0.20); }
+[data-theme="light"] .text-white\/25      { color: rgba(10,15,30,0.25); }
+[data-theme="light"] .text-white\/30      { color: rgba(10,15,30,0.30); }
+[data-theme="light"] .text-white\/35      { color: rgba(10,15,30,0.35); }
+[data-theme="light"] .text-white\/40      { color: rgba(10,15,30,0.40); }
+[data-theme="light"] .text-white\/45      { color: rgba(10,15,30,0.45); }
+[data-theme="light"] .text-white\/50      { color: rgba(10,15,30,0.50); }
+[data-theme="light"] .text-white\/55      { color: rgba(10,15,30,0.55); }
+[data-theme="light"] .text-white\/60      { color: rgba(10,15,30,0.60); }
+[data-theme="light"] .text-white\/65      { color: rgba(10,15,30,0.65); }
+[data-theme="light"] .text-white\/70      { color: rgba(10,15,30,0.70); }
+[data-theme="light"] .text-white\/80      { color: rgba(10,15,30,0.80); }
+[data-theme="light"] .text-white\/90      { color: rgba(10,15,30,0.90); }
+
+/* placeholder text in light mode */
+[data-theme="light"] .placeholder\:text-white\/25::placeholder { color: rgba(10,15,30,0.25); }
+
+/* ── Reduced motion ──────────────────────────────────────────────────────────*/
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

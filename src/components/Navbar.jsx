@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Zap } from 'lucide-react';
+import { Menu, X, Zap, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../auth/useAuth';
+import { useTheme } from '../contexts/ThemeContext.jsx';
 
 const NAV_LINKS = [
   { label: 'About', href: '#about' },
@@ -15,6 +16,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { loading, isAuthenticated, signOut } = useAuth();
+  const { isDark, toggle } = useTheme();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -87,6 +89,13 @@ export default function Navbar() {
               Get Started
             </Link>
           )}
+          <button
+            onClick={toggle}
+            aria-label="Toggle theme"
+            className="rounded-full border border-line/60 p-2 text-white/50 transition hover:border-violet/40 hover:text-white"
+          >
+            {isDark ? <Sun size={15} /> : <Moon size={15} />}
+          </button>
         </div>
 
         <button className="text-white/70 md:hidden" onClick={() => setOpen(!open)}>
