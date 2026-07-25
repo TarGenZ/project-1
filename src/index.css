@@ -81,6 +81,16 @@ button:focus-visible,
 
 /* placeholder text in light mode */
 [data-theme="light"] .placeholder\:text-white\/25::placeholder { color: rgba(10,15,30,0.25); }
+[data-theme="light"] .placeholder\:text-white\/30::placeholder { color: rgba(10,15,30,0.30); }
+[data-theme="light"] .placeholder\:text-white\/40::placeholder { color: rgba(10,15,30,0.40); }
+
+/* ── Theme transition spinner ────────────────────────────────────────────────
+   Used by ThemeContext's overlay — defined here so it survives Tailwind's
+   purge and works in inline-style contexts where animate-spin can't reach.
+── */
+@keyframes theme-spin {
+  to { transform: rotate(360deg); }
+}
 
 /* ── Reduced motion ──────────────────────────────────────────────────────────*/
 @media (prefers-reduced-motion: reduce) {

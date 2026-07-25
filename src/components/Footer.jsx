@@ -1,13 +1,11 @@
-import { Zap } from 'lucide-react';
-
 export default function Footer() {
   return (
-    <footer className="border-t border-line/70 px-5 py-12">
+    <footer className="border-t border-line/70 px-4 py-10 sm:px-5 sm:py-12">
       <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-8 md:flex-row md:items-start">
         <div>
-          <p className="flex items-center gap-1.5 font-display text-lg font-bold text-white">
-            <Zap size={16} className="text-amber" fill="currentColor" />
-            Arpan<span className="text-amber">Mentors</span>
+          <p className="font-display text-lg font-bold text-white">
+            arpan<span className="text-amber">sarkar</span>
+            <span className="text-white/30">.org</span>
           </p>
           <p className="mt-2 max-w-xs text-sm text-white/45">
             Part of the arpansarkar.org network — NEET UG mentorship from someone who was in your
@@ -61,7 +59,8 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <p className="mx-auto mt-10 max-w-6xl text-xs text-white/30">
+
+      <p className="mx-auto mt-10 max-w-6xl border-t border-line/70 pt-6 text-xs text-white/30">
         © {new Date().getFullYear()} Arpan Sarkar. All rights reserved.
       </p>
     </footer>
