@@ -12,13 +12,9 @@ const NAV_LINKS = [
   { label: 'FAQ',          href: '#faq' },
 ];
 
-// Auth button style — identical to project-0's AuthButton BTN constant
-const BTN =
-  'flex items-center gap-2 rounded-full border border-line bg-panel px-3.5 py-1.5 text-sm text-white/70 transition hover:border-violet/50 hover:text-white';
-
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [headerH,    setHeaderH]    = useState(57); // measured height of the sticky header
+  const [headerH,    setHeaderH]    = useState(57);
 
   const headerRef = useRef(null);
   const { loading, isAuthenticated, user, signOut } = useAuth();
@@ -26,7 +22,7 @@ export default function Navbar() {
   const location = useLocation();
   const navigate  = useNavigate();
 
-  // ── Measure header height so the overlay snaps flush below it ─────────────
+  // ── Measure header height so the mobile panel snaps flush below it ─────────
   useEffect(() => {
     const el = headerRef.current;
     if (!el) return;
@@ -62,9 +58,27 @@ export default function Navbar() {
     }
   };
 
+  // ── Theme-aware classes ────────────────────────────────────────────────────
+  // Drive icon / hover colours directly from isDark so the icon is NEVER
+  // invisible after a dynamic toggle (the CSS-override path has a timing lag
+  // between applyTheme() and the browser repaint on some Android Chromium builds).
+  const toggleCls = isDark
+    ? 'rounded-full border border-line/60 p-2 text-white/50 transition hover:border-violet/40 hover:text-white'
+    : 'rounded-full border border-line/60 p-2 text-[#0A0F1E]/60 transition hover:border-violet/40 hover:text-[#0A0F1E]';
+
+  const toggleMobileCls = isDark
+    ? 'rounded-full border border-line/60 p-1.5 text-white/50 transition hover:text-white'
+    : 'rounded-full border border-line/60 p-1.5 text-[#0A0F1E]/60 transition hover:text-[#0A0F1E]';
+
+  // Auth button pill — identical to project-0's AuthButton BTN constant
+  const BTN =
+    'flex items-center gap-2 rounded-full border border-line bg-panel px-3.5 py-1.5 text-sm text-white/70 transition hover:border-violet/50 hover:text-white';
+
+  const initial = (user?.email || 'A').charAt(0).toUpperCase();
+
   return (
     <>
-      {/* Sticky header — ref'd so we can measure its height */}
+      {/* ── Sticky header ──────────────────────────────────────────────────── */}
       <header ref={headerRef} className="sticky top-0 z-40 border-b border-line/70 bg-base/85 backdrop-blur-md">
         <nav className="mx-auto flex max-w-6xl items-center gap-2 px-4 py-3 sm:px-5">
 
@@ -91,11 +105,7 @@ export default function Navbar() {
 
           {/* Desktop right: theme toggle → auth */}
           <div className="ml-auto hidden items-center gap-2 md:flex">
-            <button
-              onClick={toggle}
-              aria-label="Toggle theme"
-              className="rounded-full border border-line/60 p-2 text-white/50 transition hover:border-violet/40 hover:text-white"
-            >
+            <button onClick={toggle} aria-label="Toggle theme" className={toggleCls}>
               {isDark ? <Sun size={15} /> : <Moon size={15} />}
             </button>
 
@@ -103,16 +113,14 @@ export default function Navbar() {
               <div className="h-8 w-24 animate-pulse rounded-full bg-panel" />
             ) : isAuthenticated ? (
               <div className="flex items-center gap-2">
-                <Link to="/dashboard" className={BTN}>
-                  Dashboard
-                </Link>
+                <Link to="/dashboard" className={BTN}>Dashboard</Link>
                 <button
                   onClick={signOut}
                   title={`Signed in as ${user?.email || ''} — click to sign out`}
                   className={BTN}
                 >
                   <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-violet text-[10px] font-bold text-[#fff]">
-                    {(user?.email || 'A').charAt(0).toUpperCase()}
+                    {initial}
                   </span>
                   Sign out
                 </button>
@@ -127,13 +135,9 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Mobile right: theme toggle + hamburger */}
+          {/* Mobile right: theme toggle + animated hamburger */}
           <div className="ml-auto flex items-center gap-2 md:hidden">
-            <button
-              onClick={toggle}
-              aria-label="Toggle theme"
-              className="rounded-full border border-line/60 p-1.5 text-white/50 transition hover:text-white"
-            >
+            <button onClick={toggle} aria-label="Toggle theme" className={toggleMobileCls}>
               {isDark ? <Sun size={15} /> : <Moon size={15} />}
             </button>
             <button
@@ -152,7 +156,7 @@ export default function Navbar() {
         </nav>
       </header>
 
-      {/* ── Mobile: blurred backdrop — sits below the header, covers the page ── */}
+      {/* ── Mobile: blurred backdrop ────────────────────────────────────────── */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -171,7 +175,7 @@ export default function Navbar() {
         )}
       </AnimatePresence>
 
-      {/* ── Mobile: frosted panel — slides down flush from the header ─────── */}
+      {/* ── Mobile: frosted panel ───────────────────────────────────────────── */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -199,34 +203,36 @@ export default function Navbar() {
                   ))}
                 </div>
 
-                {/* Auth */}
+                {/* Auth — compact pills, side-by-side, centred — matches project-0 exactly */}
                 <div className="mt-3 border-t border-line/70 pt-4">
                   {loading ? (
                     <div className="h-8 w-full animate-pulse rounded-full bg-panel" />
                   ) : isAuthenticated ? (
-                    <div className="flex flex-col gap-2">
-                      <Link
-                        to="/dashboard"
-                        onClick={closeNav}
-                        className="w-full rounded-lg border border-line bg-panel px-3 py-2.5 text-center text-sm text-white/70 transition hover:border-violet/50 hover:text-white"
-                      >
+                    <div className="flex w-full items-center justify-center gap-2">
+                      <Link to="/dashboard" onClick={closeNav} className={BTN}>
                         Dashboard
                       </Link>
                       <button
                         onClick={() => { signOut(); closeNav(); }}
-                        className="w-full rounded-lg border border-line bg-panel px-3 py-2.5 text-center text-sm text-white/70 transition hover:border-violet/50 hover:text-white"
+                        title={`Signed in as ${user?.email || ''} — click to sign out`}
+                        className={BTN}
                       >
+                        <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-violet text-[10px] font-bold text-[#fff]">
+                          {initial}
+                        </span>
                         Sign out
                       </button>
                     </div>
                   ) : (
-                    <Link
-                      to="/login"
-                      onClick={closeNav}
-                      className="block w-full rounded-lg bg-violet px-4 py-2.5 text-center text-sm font-semibold text-[#fff] transition hover:bg-violet-soft"
-                    >
-                      Get Started
-                    </Link>
+                    <div className="flex w-full justify-center">
+                      <Link
+                        to="/login"
+                        onClick={closeNav}
+                        className="rounded-full bg-violet px-5 py-2 text-sm font-semibold text-[#fff] transition hover:bg-violet-soft"
+                      >
+                        Get Started
+                      </Link>
+                    </div>
                   )}
                 </div>
 
