@@ -77,7 +77,15 @@ button:focus-visible,
 [data-theme="light"] .text-white\/65      { color: rgba(10,15,30,0.65); }
 [data-theme="light"] .text-white\/70      { color: rgba(10,15,30,0.70); }
 [data-theme="light"] .text-white\/80      { color: rgba(10,15,30,0.80); }
+[data-theme="light"] .text-white\/85      { color: rgba(10,15,30,0.85); }
 [data-theme="light"] .text-white\/90      { color: rgba(10,15,30,0.90); }
+
+/* hover:text-white in light mode — remap so hovering nav items / buttons
+   doesn't turn text invisible against the light background.
+   The violet exception keeps white-on-violet hover states correct. */
+[data-theme="light"] .hover\:text-white:hover                    { color: #0A0F1E; }
+[data-theme="light"] .bg-violet .hover\:text-white:hover,
+[data-theme="light"] .bg-violet-soft .hover\:text-white:hover    { color: #fff; }
 
 /* placeholder text in light mode */
 [data-theme="light"] .placeholder\:text-white\/25::placeholder { color: rgba(10,15,30,0.25); }
@@ -106,10 +114,6 @@ button:focus-visible,
    The global text-white → #0A0F1E remap must NOT fire when the element
    (or its ancestor) carries a solid violet background — contrast is provided
    by the button itself, not the page background.
-   Covers: same-element  →  .bg-violet.text-white
-           descendant    →  .bg-violet .text-white   (e.g. icon/span inside button)
-   Also catches hover:bg-violet-soft since the root element still has .bg-violet
-   in the DOM during the hover transition.
 ── */
 [data-theme="light"] .bg-violet.text-white,
 [data-theme="light"] .bg-violet .text-white,
