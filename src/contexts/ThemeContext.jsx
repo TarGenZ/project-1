@@ -86,6 +86,11 @@ export function ThemeProvider({ children }) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Profile: cross-device sync on mount ──────────────────────────────────
+  // Only override the local theme if NO cookie exists on this device — meaning
+  // it's a first visit or the cookies were cleared.  If a cookie IS present it
+  // means the user has set a preference on this device, and that wins over a
+  // potentially stale profile value (profile updates are fire-and-forget and
+  // can fall behind).  Realtime handles live cross-device updates separately.
   useEffect(() => {
     let cancelled = false;
     async function syncFromProfile() {
@@ -93,18 +98,26 @@ export function ThemeProvider({ children }) {
         const { supabase } = await import('../lib/supabaseClient.js');
         const { data: { session } } = await supabase.auth.getSession();
         if (!session?.user?.id || cancelled) return;
+        // Cookie already set → this device has a known preference; leave it alone.
+        if (readCookie()) return;
         const { data: profile } = await supabase
           .from('profiles').select('theme_preference').eq('id', session.user.id).single();
         if (cancelled) return;
         const pref = profile?.theme_preference;
-        if (pref && pref !== readCookie()) _apply(pref);
+        if (pref) _apply(pref);
       } catch {}
     }
     syncFromProfile();
     return () => { cancelled = true; };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // ── Auth state listener: re-sync on late sign-in ─────────────────────────
+  // ── Auth state listener: sync theme on fresh sign-in ─────────────────────
+  // Only fires on SIGNED_IN (user actually authenticated, new session).
+  // TOKEN_REFRESHED is intentionally excluded: background token refreshes
+  // happen silently every ~hour and were incorrectly overriding the local
+  // cookie with a potentially stale profile value.  Realtime handles live
+  // cross-device changes; this listener is only for the "just signed in on
+  // this device" moment where no local cookie preference exists yet.
   useEffect(() => {
     let cancelled = false;
     let authSub = null;
@@ -113,7 +126,7 @@ export function ThemeProvider({ children }) {
         const { supabase } = await import('../lib/supabaseClient.js');
         const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
           if (cancelled) return;
-          if ((event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') && session?.user?.id) {
+          if (event === 'SIGNED_IN' && session?.user?.id) {
             const { data: profile } = await supabase
               .from('profiles').select('theme_preference').eq('id', session.user.id).single();
             if (cancelled) return;
