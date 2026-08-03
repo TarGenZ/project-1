@@ -3,6 +3,7 @@ export default {
   content: ['./index.html', './src/**/*.{js,jsx}'],
   theme: {
     extend: {
+      maxWidth: { page: '1400px' },
       colors: {
         // These three drive the entire light/dark switch.
         // They read from CSS variables so [data-theme="light"] overrides in

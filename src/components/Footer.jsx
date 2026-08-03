@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
     <footer className="border-t border-line/70 px-4 py-10 sm:px-5 sm:py-12">
-      <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-8 md:flex-row md:items-start">
+      <div className="mx-auto flex max-w-page flex-col items-start justify-between gap-8 md:flex-row md:items-start">
         <div>
           <p className="font-display text-lg font-bold text-white">
             arpan<span className="text-amber">sarkar</span>
@@ -60,7 +60,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <p className="mx-auto mt-10 max-w-6xl border-t border-line/70 pt-6 text-xs text-white/30">
+      <p className="mx-auto mt-10 max-w-page border-t border-line/70 pt-6 text-xs text-white/30">
         © {new Date().getFullYear()} Arpan Sarkar. All rights reserved.
       </p>
     </footer>

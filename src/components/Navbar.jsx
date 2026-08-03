@@ -80,7 +80,7 @@ export default function Navbar() {
     <>
       {/* ── Sticky header ──────────────────────────────────────────────────── */}
       <header ref={headerRef} className="sticky top-0 z-40 border-b border-line/70 bg-base/85 backdrop-blur-md">
-        <nav className="mx-auto flex max-w-6xl items-center gap-2 px-4 py-3 sm:px-5">
+        <nav className="mx-auto flex max-w-page items-center gap-2 px-4 py-3 sm:px-5">
 
           {/* Logo — links back to the main domain */}
           <a
