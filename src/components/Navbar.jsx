@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sun, Moon } from 'lucide-react';
 import { useAuth } from '../auth/useAuth';
 import { useTheme } from '../contexts/ThemeContext.jsx';
+import AuthModal from './AuthModal.jsx';
 
 const NAV_LINKS = [
   { label: 'About',        href: '#about' },
@@ -15,6 +16,7 @@ const NAV_LINKS = [
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [headerH,    setHeaderH]    = useState(57);
+  const [authModal,  setAuthModal]  = useState(null); // 'login' | 'signup' | null
 
   const headerRef = useRef(null);
   const { loading, isAuthenticated, user, signOut } = useAuth();
@@ -47,6 +49,7 @@ export default function Navbar() {
   }, []);
 
   const closeNav = () => setMobileOpen(false);
+  const openAuth = () => { setMobileOpen(false); setAuthModal('login'); };
 
   const handleNavClick = (href) => {
     closeNav();
@@ -126,12 +129,13 @@ export default function Navbar() {
                 </button>
               </div>
             ) : (
-              <Link
-                to="/login"
+              <button
+                type="button"
+                onClick={openAuth}
                 className="rounded-full bg-violet px-5 py-2 text-sm font-semibold text-[#fff] transition hover:bg-violet-soft"
               >
                 Register/Sign In
-              </Link>
+              </button>
             )}
           </div>
 
@@ -225,13 +229,13 @@ export default function Navbar() {
                     </div>
                   ) : (
                     <div className="flex w-full justify-center">
-                      <Link
-                        to="/login"
-                        onClick={closeNav}
+                      <button
+                        type="button"
+                        onClick={openAuth}
                         className="rounded-full bg-violet px-5 py-2 text-sm font-semibold text-[#fff] transition hover:bg-violet-soft"
                       >
                         Register/Sign In
-                      </Link>
+                      </button>
                     </div>
                   )}
                 </div>
@@ -241,6 +245,10 @@ export default function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {authModal && (
+        <AuthModal initialStep={authModal} onClose={() => setAuthModal(null)} />
+      )}
     </>
   );
 }
