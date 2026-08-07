@@ -63,13 +63,17 @@ export default function ForgotPassword() {
             value={code}
             onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
             placeholder={'1'.repeat(CODE_LENGTH)}
-            className="mt-5 w-full rounded-lg border border-line bg-base px-4 py-2.5 text-center text-base tracking-[0.25em] text-white placeholder:tracking-normal placeholder:text-white/30 focus:border-violet/60 focus:outline-none"
+            className="mt-5 w-full rounded-lg border border-line/40 bg-white/5 px-4 py-2.5 text-center text-base tracking-[0.25em] text-white placeholder:tracking-normal placeholder:text-white/30 outline-none transition focus:border-violet/60 focus:bg-violet/5"
           />
-          {error && <p className="mt-2 text-xs text-red-400">{error}</p>}
+          {error && (
+          <div className="mt-3 rounded-lg border border-red-500/30 bg-red-500/10 px-3.5 py-2.5 text-xs text-red-400">
+            {error}
+          </div>
+        )}
           <button
             type="submit"
             disabled={busy || code.length !== CODE_LENGTH}
-            className="mt-5 w-full rounded-lg bg-violet py-2.5 text-sm font-semibold text-white transition hover:bg-violet-soft disabled:opacity-50"
+            className="mt-5 w-full rounded-full bg-violet py-2.5 text-sm font-semibold text-white transition hover:bg-violet-soft disabled:opacity-50"
           >
             {busy ? 'Verifying…' : 'Verify code'}
           </button>
@@ -90,13 +94,17 @@ export default function ForgotPassword() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@example.com"
-          className="mt-5 w-full rounded-lg border border-line bg-base px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-violet/60 focus:outline-none"
+          className="mt-5 w-full rounded-lg border border-line/40 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 outline-none transition focus:border-violet/60 focus:bg-violet/5"
         />
-        {error && <p className="mt-2 text-xs text-red-400">{error}</p>}
+        {error && (
+          <div className="mt-3 rounded-lg border border-red-500/30 bg-red-500/10 px-3.5 py-2.5 text-xs text-red-400">
+            {error}
+          </div>
+        )}
         <button
           type="submit"
           disabled={busy}
-          className="mt-5 w-full rounded-lg bg-violet py-2.5 text-sm font-semibold text-white transition hover:bg-violet-soft disabled:opacity-50"
+          className="mt-5 w-full rounded-full bg-violet py-2.5 text-sm font-semibold text-white transition hover:bg-violet-soft disabled:opacity-50"
         >
           {busy ? 'Sending…' : 'Send reset code'}
         </button>

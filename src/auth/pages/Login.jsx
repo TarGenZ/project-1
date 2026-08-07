@@ -100,13 +100,17 @@ export default function Login() {
             value={code}
             onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
             placeholder={'1'.repeat(CODE_LENGTH)}
-            className="mt-5 w-full rounded-lg border border-line bg-base px-4 py-2.5 text-center text-base tracking-[0.25em] text-white placeholder:tracking-normal placeholder:text-white/30 focus:border-violet/60 focus:outline-none"
+            className="mt-5 w-full rounded-lg border border-line/40 bg-white/5 px-4 py-2.5 text-center text-base tracking-[0.25em] text-white placeholder:tracking-normal placeholder:text-white/30 outline-none transition focus:border-violet/60 focus:bg-violet/5"
           />
-          {error && <p className="mt-2 text-xs text-red-400">{error}</p>}
+          {error && (
+          <div className="mt-3 rounded-lg border border-red-500/30 bg-red-500/10 px-3.5 py-2.5 text-xs text-red-400">
+            {error}
+          </div>
+        )}
           <button
             type="submit"
             disabled={busy || code.length !== CODE_LENGTH}
-            className="mt-5 w-full rounded-lg bg-violet py-2.5 text-sm font-semibold text-white transition hover:bg-violet-soft disabled:opacity-50"
+            className="mt-5 w-full rounded-full bg-violet py-2.5 text-sm font-semibold text-white transition hover:bg-violet-soft disabled:opacity-50"
           >
             {busy ? 'Verifying…' : 'Verify & continue'}
           </button>
@@ -134,7 +138,7 @@ export default function Login() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@example.com"
-          className="mt-1.5 w-full rounded-lg border border-line bg-base px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-violet/60 focus:outline-none"
+          className="mt-1.5 w-full rounded-lg border border-line/40 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 outline-none transition focus:border-violet/60 focus:bg-violet/5"
         />
 
         <label className="mt-4 block text-xs font-medium text-white/50">Password</label>
@@ -145,7 +149,11 @@ export default function Login() {
           className="mt-1.5"
         />
 
-        {error && <p className="mt-2 text-xs text-red-400">{error}</p>}
+        {error && (
+          <div className="mt-3 rounded-lg border border-red-500/30 bg-red-500/10 px-3.5 py-2.5 text-xs text-red-400">
+            {error}
+          </div>
+        )}
         {showForgotLink && (
           <Link
             to={`/forgot-password?email=${encodeURIComponent(email)}`}
@@ -158,7 +166,7 @@ export default function Login() {
         <button
           type="submit"
           disabled={busy}
-          className="mt-5 w-full rounded-lg bg-violet py-2.5 text-sm font-semibold text-white transition hover:bg-violet-soft disabled:opacity-50"
+          className="mt-5 w-full rounded-full bg-violet py-2.5 text-sm font-semibold text-white transition hover:bg-violet-soft disabled:opacity-50"
         >
           {busy ? 'Logging in…' : 'Log in'}
         </button>
@@ -173,9 +181,9 @@ export default function Login() {
       </form>
 
       <div className="my-4 flex items-center gap-3">
-        <div className="h-px flex-1 bg-line" />
+        <div className="h-px flex-1 bg-line/40" />
         <span className="text-xs text-white/30">or</span>
-        <div className="h-px flex-1 bg-line" />
+        <div className="h-px flex-1 bg-line/40" />
       </div>
 
       <OAuthButtons next={next} onError={setError} />

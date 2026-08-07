@@ -56,11 +56,15 @@ export default function ResetPassword() {
           autoComplete="new-password"
           className="mt-5"
         />
-        {error && <p className="mt-2 text-xs text-red-400">{error}</p>}
+        {error && (
+          <div className="mt-3 rounded-lg border border-red-500/30 bg-red-500/10 px-3.5 py-2.5 text-xs text-red-400">
+            {error}
+          </div>
+        )}
         <button
           type="submit"
           disabled={busy}
-          className="mt-5 w-full rounded-lg bg-violet py-2.5 text-sm font-semibold text-white transition hover:bg-violet-soft disabled:opacity-50"
+          className="mt-5 w-full rounded-full bg-violet py-2.5 text-sm font-semibold text-white transition hover:bg-violet-soft disabled:opacity-50"
         >
           {busy ? 'Saving…' : 'Save new password'}
         </button>

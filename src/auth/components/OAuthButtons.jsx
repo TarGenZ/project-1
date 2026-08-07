@@ -25,7 +25,7 @@ export default function OAuthButtons({ onError, next }) {
     <button
       type="button"
       onClick={handleGoogle}
-      className="flex w-full items-center justify-center gap-2 rounded-lg border border-line bg-base py-2.5 text-sm font-semibold text-white transition hover:border-violet/50"
+      className="flex w-full items-center justify-center gap-2.5 rounded-full border border-line/40 bg-white/5 py-2.5 text-sm font-semibold text-white/85 transition hover:border-violet/40 hover:bg-white/10 hover:text-white"
     >
       <GoogleIcon />
       Continue with Google
