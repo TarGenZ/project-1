@@ -130,7 +130,7 @@ export default function Navbar() {
                 to="/login"
                 className="rounded-full bg-violet px-5 py-2 text-sm font-semibold text-[#fff] transition hover:bg-violet-soft"
               >
-                Get Started
+                Register/Sign In
               </Link>
             )}
           </div>
@@ -230,7 +230,7 @@ export default function Navbar() {
                         onClick={closeNav}
                         className="rounded-full bg-violet px-5 py-2 text-sm font-semibold text-[#fff] transition hover:bg-violet-soft"
                       >
-                        Get Started
+                        Register/Sign In
                       </Link>
                     </div>
                   )}
