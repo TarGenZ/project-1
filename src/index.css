@@ -10,7 +10,7 @@
   /* dark (default) */
   --color-base:     10 15 30;     /* #0A0F1E */
   --color-panel:    16 22 43;     /* #10162B */
-  --color-line:     30 37 64;     /* #1E2540 */
+  --color-line:     52 63 102;    /* #343F66 — brighter for visible contrast on dark bg */
   --color-lavender: 196 181 253;  /* #C4B5FD — light purple, readable on dark */
   --color-grid-dot: 196, 181, 253, 0.07;
 }
