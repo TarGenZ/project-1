@@ -71,7 +71,7 @@ export default function Dashboard() {
         <aside className="border-b border-line md:min-h-screen md:w-60 md:border-b-0 md:border-r">
           <div className="px-5 py-5">
             <p className="font-display text-lg font-bold text-white">
-              Arpan<span className="text-amber">Mentors</span>
+              Mentor<span className="text-amber">Ship</span>
             </p>
           </div>
 
