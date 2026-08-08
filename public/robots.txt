@@ -1,6 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /dashboard
-Disallow: /auth/callback
-
-Sitemap: https://mentorship.arpansarkar.org/sitemap.xml
