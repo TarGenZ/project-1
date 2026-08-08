@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ArrowLeft, Eye, EyeOff } from 'lucide-react';
+import { X, Eye, EyeOff } from 'lucide-react';
 import {
   signInWithPassword, signInWithEmailOtp, verifyEmailOtp, confirmEmailVerification,
   signUpWithPassword, verifySignupOtp, requestPasswordReset, verifyRecoveryOtp,
@@ -236,11 +236,6 @@ export default function AuthModal({ onClose, initialStep = 'login', next = '/das
 
           {step === 'code' && (
             <div className="relative">
-              <button type="button"
-                onClick={() => { setStep(codeContext === 'signup' ? 'signup' : 'login'); setError(null); }}
-                className="mb-1 flex items-center gap-1.5 text-xs text-white/40 hover:text-white/70">
-                <ArrowLeft size={12} /> back
-              </button>
               <h1 className="font-display text-xl font-semibold text-white">
                 {codeContext === 'forgot' ? 'Enter the reset code' : 'Enter your code'}
               </h1>

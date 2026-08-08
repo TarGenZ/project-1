@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import BackButton from '../../components/BackButton.jsx';
 
 /**
  * Shared card chrome for every auth page (Login, Signup, ForgotPassword,
@@ -15,7 +14,6 @@ export default function AuthLayout({ title, subtitle, backTo, children }) {
         aria-hidden="true"
         className="pointer-events-none absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet/10 blur-[100px]"
       />
-      <BackButton fallback={backTo || '/'} />
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
