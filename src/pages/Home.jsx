@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="ArpanMentors — 1:1 NEET UG Mentorship"
+        title="Mentorship by Arpan"
         description="Personal and group NEET UG mentorship from Arpan Sarkar — weekly Zoom sessions, custom roadmaps, direct WhatsApp access."
         path="/"
       />
