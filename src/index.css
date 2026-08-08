@@ -84,6 +84,8 @@ button:focus-visible,
    doesn't turn text invisible against the light background.
    The violet exception keeps white-on-violet hover states correct. */
 [data-theme="light"] .hover\:text-white:hover                    { color: #0A0F1E; }
+[data-theme="light"] .hover\:text-white\/60:hover                { color: rgba(10,15,30,0.60); }
+[data-theme="light"] .hover\:text-white\/70:hover                { color: rgba(10,15,30,0.70); }
 [data-theme="light"] .bg-violet .hover\:text-white:hover,
 [data-theme="light"] .bg-violet-soft .hover\:text-white:hover    { color: #fff; }
 
